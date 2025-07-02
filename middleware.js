@@ -3,7 +3,8 @@ export default function middleware(request) {
   const { pathname } = new URL(request.url);
   
   if (pathname.startsWith('/_next/') || pathname.includes('.')) {
-    return new Response(null, { status: 200 });
+    //return new Response(null, { status: 200 });
+    return; // 让请求继续
   }
 
   const apiKey = request.headers.get('x-api-key');
@@ -18,7 +19,9 @@ export default function middleware(request) {
     );
   }
   
-  return new Response(null, { status: 200 });
+  //return new Response(null, { status: 200 });
+  // 验证通过，不返回任何内容让请求继续
+  return;
 }
 
 export const config = {
