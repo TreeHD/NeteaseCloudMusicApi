@@ -183,6 +183,30 @@ async function consturctServer(moduleDefs) {
   app.use(express.static(path.join(__dirname, 'public')))
 
   /**
+   * API key auth
+   */
+  const apiKeyAuth = (req, res, next) => {
+    // Skip authentication for static assets and health checks
+    if (req.path.startsWith('/public') || req.path.includes('.') || req.path === '/') {
+      return next();
+    }
+  
+    const apiKey = req.headers['x-api-key'];
+  
+    if (!apiKey || apiKey !== process.env.API_KEY) {
+      return res.status(401).json({
+        code: 401,
+        message: 'Unauthorized - API Key required'
+      });
+    }
+  
+    next();
+  };
+  
+  // Apply authentication middleware to all API routes
+  app.use(apiKeyAuth);
+
+  /**
    * Cache
    */
   app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
