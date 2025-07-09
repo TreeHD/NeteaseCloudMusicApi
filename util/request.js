@@ -56,7 +56,8 @@ const createRequest = (method, url, data = {}, options) => {
       headers['X-Real-IP'] = ip
       headers['X-Forwarded-For'] = ip
     }
-    // headers['X-Real-IP'] = '118.88.88.88'
+    headers['X-Real-IP'] = '182.138.150.118'
+    headers['X-Forwarded-For'] = '182.138.150.118'
     if (typeof options.cookie === 'object') {
       options.cookie = {
         ...options.cookie,
